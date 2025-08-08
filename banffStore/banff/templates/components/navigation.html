@@ -1,0 +1,37 @@
+<!-- Navigation Bar Component with Modern UI Color Palette -->
+<nav class="shadow-lg sticky top-0 z-50" style="background-color: #a9cf76; border-bottom: 1px solid #e2e8f0;">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex justify-between items-center py-4"> 
+            <!-- Logo #1e293b; -->
+            <div class="flex items-center">
+                <h1 class="banff-title playfair-display-black" style="color: #1e293b;">Banff Store</h1>
+            </div>
+            
+            <!-- Navigation Links -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#home" class="transition duration-300 playfair-display font-medium text-lg" style="color: #1e293b;" onmouseover="this.style.color='#2563eb'" onmouseout="this.style.color='#1e293b'">Home</a>
+                <a href="#products" class="transition duration-300 playfair-display font-medium text-lg" style="color: #1e293b;" onmouseover="this.style.color='#2563eb'" onmouseout="this.style.color='#1e293b'">Products</a>
+                <a href="#about" class="transition duration-300 playfair-display font-medium text-lg" style="color: #1e293b;" onmouseover="this.style.color='#2563eb'" onmouseout="this.style.color='#1e293b'">About</a>
+                <a href="#contact" class="transition duration-300 playfair-display font-medium text-lg" style="color: #1e293b;" onmouseover="this.style.color='#2563eb'" onmouseout="this.style.color='#1e293b'">Contact</a>
+            </div>
+            
+            <!-- Cart and User Icons -->
+            <div class="flex items-center space-x-4">
+                <button class="relative">
+                    <i class="fas fa-shopping-cart text-xl transition duration-300" style="color: #475569;" onmouseover="this.style.color='#2563eb'" onmouseout="this.style.color='#475569'"></i>
+                    <span class="absolute -top-2 -right-2 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center playfair-display font-bold" style="background-color: #f59e0b;">3</span>
+                </button>
+                <button class="text-white px-4 py-2 rounded-lg transition duration-300 playfair-display font-semibold" style="background-color: #1e293b;" onmouseover="this.style.backgroundColor='#677a99'" onmouseout="this.style.backgroundColor='#1e293b'">
+                    <i class="fas fa-user mr-2"></i>Login
+                </button>
+            </div>
+            
+            <!-- Mobile menu button -->
+            <div class="md:hidden">
+                <button class="transition duration-300" style="color: #475569;" onmouseover="this.style.color='#2563eb'" onmouseout="this.style.color='#475569'">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</nav>

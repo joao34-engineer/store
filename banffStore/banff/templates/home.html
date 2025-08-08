@@ -1,0 +1,62 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Home - Banff Store{% endblock %}
+
+{% block content %}
+<div class="container ">
+    <div class="hero-section text-center">
+        <h1>Welcome to Banff Store</h1>
+        <p>Your one-stop shop for quality products</p>
+        <a href="#" class="btn">Shop Now</a>
+    </div>
+    
+    <div class="features-section">
+        <h2>Featured Products</h2>
+        <!-- Add your product grid here -->
+        <div class="product-grid">
+            <!-- Products will go here -->
+        </div>
+    </div>
+</div>
+{% endblock %}
+#a9cf76
+{% block extra_css %}
+<style>
+    .hero-section {
+        padding: 4rem 0;
+        background-color: #a9cf76;
+        margin-bottom: 3rem;
+        border-radius: 0.5rem;
+    }
+    /* #f8f9fa */
+    .hero-section h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        color: #333;
+    }
+    
+    .hero-section p {
+        font-size: 1.25rem;
+        margin-bottom: 2rem;
+        color: #666;
+    }
+    
+    .features-section {
+        padding: 2rem 0;
+    }
+    
+    .features-section h2 {
+        text-align: center;
+        margin-bottom: 2rem;
+        color: #333;
+    }
+    
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+</style>
+{% endblock %}

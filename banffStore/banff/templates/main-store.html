@@ -1,0 +1,35 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Banff Store - Premium Online Shopping{% endblock %}
+
+{% block extra_css %}
+<!-- Template-specific CSS only (if needed) -->
+{% endblock %}
+
+{% block content %}
+<!-- Include Navigation Component -->
+{% include 'components/navigation.html' %}
+
+<!-- Include Hero Section Component -->
+{% include 'components/hero.html' %}
+
+<!-- Include Features Section Component -->
+{% include 'components/features.html' %}
+
+<!-- Include Products Section Component -->
+{% include 'components/products.html' %}
+
+<!-- Include Newsletter Section Component -->
+{% include 'components/newsletter.html' %}
+
+<!-- Include Testimonials Section Component -->
+{% include 'components/testimonials.html' %}
+
+<!-- Include Footer Component -->
+{% include 'components/footer.html' %}
+{% endblock %}
+
+{% block extra_js %}
+<!-- All JavaScript functionality is now in main.js -->
+{% endblock %}
