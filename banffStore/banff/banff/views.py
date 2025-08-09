@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.conf import settings
 
 def home(request):
     """Home page view"""
@@ -15,3 +16,11 @@ def store_template(request):
 def main_store(request):
     """Organized main store with components and Playfair Display font"""
     return render(request, 'main-store.html')
+
+def spa(request):
+    """Redirect to Vite dev server in development.
+    In production, serve the built SPA via staticfiles or a separate host.
+    """
+    if settings.DEBUG:
+        return redirect('http://localhost:5173/')
+    return redirect('/')

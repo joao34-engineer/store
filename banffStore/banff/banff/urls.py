@@ -29,6 +29,7 @@ urlpatterns = [
     path('store/', views.store_template, name='store_template'),
     path('main-store/', views.main_store, name='main_store'),
     path('shop/', include('store.urls', namespace='store')),
+    path('app/', views.spa, name='spa'),
 
     # API v1
     path('api/v1/', include('store.api_urls')),
