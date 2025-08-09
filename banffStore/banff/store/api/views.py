@@ -1,13 +1,13 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import viewsets, mixins
+from rest_framework import viewsets, mixins, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 
-from store.models import Category, Product
-from .serializers import CategorySerializer, ProductSerializer
+from store.models import Category, Product, Order, OrderItem
+from .serializers import CategorySerializer, ProductSerializer, OrderSerializer, OrderCreateSerializer
 
 class CategoryViewSet(mixins.ListModelMixin,
                       mixins.RetrieveModelMixin,
@@ -112,3 +112,33 @@ class CartViewSet(viewsets.ViewSet):
         cart.pop(pid, None)
         self._save_cart(request, cart)
         return Response({'detail': 'removed'})
+
+    @action(detail=False, methods=['post'])
+    def checkout(self, request):
+        serializer = OrderCreateSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        cart = self._get_cart(request)
+        if not cart:
+            return Response({'detail': 'Cart is empty'}, status=400)
+        # Build order
+        order = Order.objects.create(
+            user=request.user if request.user.is_authenticated else None,
+            **serializer.validated_data,
+        )
+        # Create items
+        product_ids = [int(pid) for pid in cart.keys()]
+        products = {p.id: p for p in Product.objects.filter(id__in=product_ids)}
+        for pid_str, qty in cart.items():
+            pid = int(pid_str)
+            p = products.get(pid)
+            if not p:
+                continue
+            OrderItem.objects.create(order=order, product=p, price=p.price, quantity=qty)
+            # reduce stock and availability
+            p.stock = max(0, p.stock - qty)
+            if p.stock == 0:
+                p.available = False
+            p.save()
+        # Clear cart
+        self._save_cart(request, {})
+        return Response(OrderSerializer(order).data, status=status.HTTP_201_CREATED)

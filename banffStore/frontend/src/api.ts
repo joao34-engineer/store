@@ -34,5 +34,7 @@ export const api = {
       http<{ detail: string }>(`/cart/set`, { method: 'POST', body: JSON.stringify({ product, quantity }) }),
     remove: (product: number | string) =>
       http<{ detail: string }>(`/cart/remove`, { method: 'POST', body: JSON.stringify({ product }) }),
+    checkout: (payload: { email: string; full_name: string; address: string; city: string; postal_code: string; country?: string }) =>
+      http<any>(`/cart/checkout`, { method: 'POST', body: JSON.stringify(payload) }),
   },
 };
