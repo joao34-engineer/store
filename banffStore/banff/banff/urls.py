@@ -19,6 +19,8 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,6 +29,17 @@ urlpatterns = [
     path('store/', views.store_template, name='store_template'),
     path('main-store/', views.main_store, name='main_store'),
     path('shop/', include('store.urls', namespace='store')),
+
+    # API v1
+    path('api/v1/', include('store.api_urls')),
+
+    # JWT Auth
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
+    # OpenAPI schema & docs
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='docs'),
 ]
 
 # Serve static and media files during development
