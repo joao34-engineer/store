@@ -60,7 +60,10 @@ ROOT_URLCONF = 'banff.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [PROJECT_DIR / 'templates'],
+        'DIRS': [
+            PROJECT_DIR / 'templates',  # banff/templates
+            BASE_DIR / 'templates',     # banff/banff/templates
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
