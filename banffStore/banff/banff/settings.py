@@ -11,26 +11,21 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-import os
-from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-PROJECT_DIR = BASE_DIR.parent  # one level up (contains templates/ and static/)
 
-# Load environment variables
-load_dotenv(PROJECT_DIR / '.env')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'dev-insecure-secret')
+SECRET_KEY = 'django-insecure-y@ei#fg8i3v6t#grx74jk74w&k3eq)gi*t7625b9fgc)jsi6te'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DJANGO_DEBUG', 'true').lower() == 'true'
+DEBUG = True
 
-ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', '').split() or []
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -43,15 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'django_filters',
     'corsheaders',
-    'drf_spectacular',
     'store',
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -65,11 +58,8 @@ ROOT_URLCONF = 'banff.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            PROJECT_DIR / 'templates',  # banff/templates
-            BASE_DIR / 'templates',     # banff/banff/templates
-        ],
-        'APP_DIRS': True,
+        'DIRS': [],  # No template directories - using React frontend
+        'APP_DIRS': True,  # Keep for admin templates
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.request',
@@ -129,50 +119,38 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',  # points to banff/static
-]
+# Removed STATICFILES_DIRS since we're using React frontend
+# Django admin static files are handled automatically
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-
-# Media files (uploaded images like product images)
-MEDIA_URL = '/media/'
-MEDIA_ROOT = PROJECT_DIR / 'media'
-
-# Auth redirects
-LOGIN_REDIRECT_URL = 'home'
-LOGOUT_REDIRECT_URL = 'home'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Django REST Framework
 REST_FRAMEWORK = {
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.AllowAny',
-    ),
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 12,
-    'DEFAULT_FILTER_BACKENDS': [
-        'django_filters.rest_framework.DjangoFilterBackend',
-        'rest_framework.filters.SearchFilter',
-        'rest_framework.filters.OrderingFilter',
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
     ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 20,
 }
 
-SPECTACULAR_SETTINGS = {
-    'TITLE': 'Banff Store API',
-    'VERSION': '1.0.0',
-    'SERVE_INCLUDE_SCHEMA': False,
-}
-
+# CORS settings for frontend-backend communication
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5173',
+    "http://localhost:5173",  # Vite dev server
+    "http://localhost:5174",  # Alternative Vite port
+    "http://127.0.0.1:5173",  # Alternative localhost
+    "http://127.0.0.1:5174",  # Alternative localhost
 ]
-CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:5173',
-]
+
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOW_ALL_ORIGINS = DEBUG  # Only in development
+
+# Update ALLOWED_HOSTS for the new port
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']

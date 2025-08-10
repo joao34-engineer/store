@@ -1,12 +1,17 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from store.api.views import CategoryViewSet, ProductViewSet, CartViewSet
+from django.urls import path
+from .api import views
 
-router = DefaultRouter()
-router.register(r'categories', CategoryViewSet, basename='category')
-router.register(r'products', ProductViewSet, basename='product')
-router.register(r'cart', CartViewSet, basename='cart')
+app_name = 'store_api'
 
 urlpatterns = [
-    path('', include(router.urls)),
+    # Products
+    path('products/', views.ProductListView.as_view(), name='product_list'),
+    path('products/<slug:slug>/', views.ProductDetailView.as_view(), name='product_detail'),
+    
+    # Categories  
+    path('categories/', views.CategoryListView.as_view(), name='category_list'),
+    
+    # Cart
+    path('cart/', views.cart_view, name='cart'),
+    path('cart/items/<int:item_id>/', views.cart_item_view, name='cart_item'),
 ]
