@@ -3,19 +3,18 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.filters import SearchFilter, OrderingFilter
-from django.shortcuts import get_object_or_404
-from django.db.models import Q, Avg, Count
+from django.db.models import Q, Avg
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 
 from ..models import (
     Product, Category, Brand, Cart, CartItem, Wishlist, ProductReview,
-    Order, OrderItem, Coupon, UserProfile
+    Order, Coupon, UserProfile
 )
 from .serializers import (
     ProductListSerializer, ProductDetailSerializer, CategorySerializer, BrandSerializer,
-    CartSerializer, CartItemSerializer, CartItemCreateSerializer, WishlistSerializer,
+    CartSerializer, CartItemSerializer, WishlistSerializer,
     ProductReviewSerializer, ProductReviewCreateSerializer, OrderSerializer,
     CouponSerializer, UserSerializer, UserProfileSerializer
 )
