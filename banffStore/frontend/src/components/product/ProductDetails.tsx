@@ -91,7 +91,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
       <div className="mt-10">
         <h2 className="text-sm font-medium text-gray-900">Description</h2>
         <div className="mt-4 space-y-6 text-sm text-gray-700">
-          <p>{product.description}</p>
+          <p>{product.description || 'No description available'}</p>
         </div>
       </div>
 

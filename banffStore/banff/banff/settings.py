@@ -20,10 +20,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-y@ei#fg8i3v6t#grx74jk74w&k3eq)gi*t7625b9fgc)jsi6te'
+import os
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-y@ei#fg8i3v6t#grx74jk74w&k3eq)gi*t7625b9fgc)jsi6te')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'True').lower() in ['true', '1', 'yes']
 
 ALLOWED_HOSTS = []
 
@@ -37,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sitemaps',
     'rest_framework',
+    'rest_framework.authtoken',
     'corsheaders',
     'store',
 ]
@@ -136,16 +139,122 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
     ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 20,
+    'DEFAULT_FILTER_BACKENDS': [
+        'rest_framework.filters.SearchFilter',
+        'rest_framework.filters.OrderingFilter',
+    ],
+    'SEARCH_PARAM': 'search',
+    'ORDERING_PARAM': 'ordering',
 }
+
+# Security Settings
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
+SECURE_HSTS_SECONDS = 31536000 if not DEBUG else 0
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+# Session Settings
+SESSION_COOKIE_SECURE = not DEBUG
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_AGE = 86400  # 24 hours
+SESSION_SAVE_EVERY_REQUEST = True
+
+# CSRF Settings
+CSRF_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_HTTPONLY = True
+
+# Email Settings (for production)
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' if DEBUG else 'django.core.mail.backends.smtp.EmailBackend'
+DEFAULT_FROM_EMAIL = 'noreply@banffstore.com'
+SERVER_EMAIL = 'admin@banffstore.com'
+
+# Media Files
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# Logging
+import os
+LOGS_DIR = BASE_DIR / 'logs'
+
+# Create logs directory and file if they don't exist
+try:
+    LOGS_DIR.mkdir(exist_ok=True)
+    log_file = LOGS_DIR / 'django.log'
+    if not log_file.exists():
+        log_file.touch()
+except Exception as e:
+    # If we can't create the log file, just use console logging
+    print(f"Warning: Could not create log file: {e}")
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'store': {
+            'handlers': ['console'],
+            'level': 'DEBUG' if DEBUG else 'INFO',
+            'propagate': False,
+        },
+    },
+}
+
+# Add file handler only if log file exists and is writable
+log_file_path = LOGS_DIR / 'django.log'
+if log_file_path.exists() and os.access(log_file_path, os.W_OK):
+    LOGGING['handlers']['file'] = {
+        'level': 'INFO',
+        'class': 'logging.FileHandler',
+        'filename': log_file_path,
+        'formatter': 'verbose',
+    }
+    # Add file handler to loggers
+    if not DEBUG:
+        LOGGING['loggers']['django']['handlers'].append('file')
+        LOGGING['loggers']['store']['handlers'].append('file')
 
 # CORS settings for frontend-backend communication
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # Vite dev server
+    "http://localhost:3000",  # Vite dev server (configured port)
+    "http://localhost:5173",  # Vite default port
     "http://localhost:5174",  # Alternative Vite port
+    "http://127.0.0.1:3000",  # Alternative localhost
     "http://127.0.0.1:5173",  # Alternative localhost
     "http://127.0.0.1:5174",  # Alternative localhost
+    "http://192.168.0.105:3000",  # Network access
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -153,4 +262,4 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ALL_ORIGINS = DEBUG  # Only in development
 
 # Update ALLOWED_HOSTS for the new port
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', '192.168.0.105']

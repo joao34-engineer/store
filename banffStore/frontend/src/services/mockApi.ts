@@ -5,18 +5,21 @@ const mockCategories: Category[] = [
   {
     id: 1,
     name: "Women's Clothing",
+    slug: "womens-clothing",
     description: "Stylish clothing for women",
     created_at: "2024-01-01T00:00:00Z"
   },
   {
     id: 2,
     name: "Men's Clothing",
+    slug: "mens-clothing",
     description: "Quality clothing for men",
     created_at: "2024-01-01T00:00:00Z"
   },
   {
     id: 3,
     name: "Accessories",
+    slug: "accessories",
     description: "Fashion accessories",
     created_at: "2024-01-01T00:00:00Z"
   }

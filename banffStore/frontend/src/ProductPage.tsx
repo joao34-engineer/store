@@ -6,11 +6,11 @@ import { useProduct } from './hooks/useProducts'
 
 interface ProductPageProps {
   onNavigateBack?: () => void
-  productId?: number
+  productSlug?: string
 }
 
-export default function ProductPage({ onNavigateBack, productId = 1 }: ProductPageProps) {
-  const { product, loading, error } = useProduct(productId)
+export default function ProductPage({ onNavigateBack, productSlug = 'basic-tee' }: ProductPageProps) {
+  const { product, loading, error } = useProduct(productSlug)
 
   // Mock product data for now since API might not be ready
   const mockProduct = {
@@ -76,8 +76,8 @@ export default function ProductPage({ onNavigateBack, productId = 1 }: ProductPa
       <ComprehensiveProductPage 
         productData={{
           name: currentProduct.name,
-          price: currentProduct.price,
-          description: currentProduct.description,
+          price: typeof currentProduct.price === 'string' ? parseFloat(currentProduct.price) : currentProduct.price,
+          description: currentProduct.description || 'No description available',
           rating: 3.9,
           reviewCount: 512,
           images: [

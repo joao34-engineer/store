@@ -11,10 +11,13 @@ export function useProducts() {
     const fetchProducts = async () => {
       try {
         setLoading(true)
-        const data = await apiService.getProducts()
-        setProducts(data)
+        console.log('Fetching products...')
+        const response = await apiService.getProducts()
+        console.log('Products fetched:', response)
+        setProducts(response.results || response)
         setError(null)
       } catch (err) {
+        console.error('Error fetching products:', err)
         setError(err instanceof Error ? err.message : 'Failed to fetch products')
         setProducts([])
       } finally {
@@ -32,7 +35,7 @@ export function useProducts() {
   }}
 }
 
-export function useProduct(id: number) {
+export function useProduct(slug: string) {
   const [product, setProduct] = useState<Product | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -41,7 +44,7 @@ export function useProduct(id: number) {
     const fetchProduct = async () => {
       try {
         setLoading(true)
-        const data = await apiService.getProduct(id)
+        const data = await apiService.getProduct(slug)
         setProduct(data)
         setError(null)
       } catch (err) {
@@ -52,10 +55,10 @@ export function useProduct(id: number) {
       }
     }
 
-    if (id) {
+    if (slug) {
       fetchProduct()
     }
-  }, [id])
+  }, [slug])
 
   return { product, loading, error }
 }
