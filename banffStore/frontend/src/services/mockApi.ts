@@ -116,6 +116,15 @@ class MockApiService {
     return product
   }
 
+  async getProductBySlug(slug: string): Promise<Product> {
+    await delay(300)
+    const product = mockProducts.find(p => p.slug === slug)
+    if (!product) {
+      throw new Error(`Product with slug ${slug} not found`)
+    }
+    return product
+  }
+
   async getProductsByCategory(categoryId: number): Promise<Product[]> {
     await delay(400)
     return mockProducts.filter(p => p.category.id === categoryId)

@@ -117,7 +117,7 @@ class ApiService {
 
   async getProduct(slug: string): Promise<Product> {
     if (isProduction) {
-      return mockApiService.getProduct(parseInt(slug))
+      return mockApiService.getProductBySlug(slug)
     }
     return this.request<Product>(`/store/products/${slug}/`)
   }
