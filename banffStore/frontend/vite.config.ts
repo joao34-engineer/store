@@ -5,9 +5,13 @@ import tailwindcss from '@tailwindcss/vite'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  base: process.env.NODE_ENV === 'production' ? '/store/' : '/',
+  base: '/store/',
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
+  },
+  server: {
+    port: 3000,
+    host: true
   }
 })
