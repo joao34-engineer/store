@@ -7,6 +7,8 @@ const mockCategories: Category[] = [
     name: "Women's Clothing",
     slug: "womens-clothing",
     description: "Stylish clothing for women",
+    is_active: true,
+    sort_order: 1,
     created_at: "2024-01-01T00:00:00Z"
   },
   {
@@ -14,6 +16,8 @@ const mockCategories: Category[] = [
     name: "Men's Clothing",
     slug: "mens-clothing",
     description: "Quality clothing for men",
+    is_active: true,
+    sort_order: 2,
     created_at: "2024-01-01T00:00:00Z"
   },
   {
@@ -21,6 +25,8 @@ const mockCategories: Category[] = [
     name: "Accessories",
     slug: "accessories",
     description: "Fashion accessories",
+    is_active: true,
+    sort_order: 3,
     created_at: "2024-01-01T00:00:00Z"
   }
 ]
@@ -29,74 +35,110 @@ const mockProducts: Product[] = [
   {
     id: 1,
     name: "Women's Elegant Dress",
+    slug: "womens-elegant-dress",
     description: "Beautiful elegant dress perfect for any occasion",
     price: 89.99,
+    price_display: "$89.99",
+    discount_percentage: 0,
+    is_on_sale: false,
     category: mockCategories[0],
     image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=500",
     stock: 15,
-    available: true,
-    created_at: "2024-01-01T00:00:00Z",
-    updated_at: "2024-01-01T00:00:00Z"
+    status: "active",
+    is_featured: false,
+    average_rating: 0,
+    review_count: 0,
+    created_at: "2024-01-01T00:00:00Z"
   },
   {
     id: 2,
     name: "Men's Casual Shirt",
+    slug: "mens-casual-shirt",
     description: "Comfortable casual shirt for everyday wear",
     price: 49.99,
+    price_display: "$49.99",
+    discount_percentage: 0,
+    is_on_sale: false,
     category: mockCategories[1],
     image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500",
     stock: 25,
-    available: true,
-    created_at: "2024-01-01T00:00:00Z",
-    updated_at: "2024-01-01T00:00:00Z"
+    status: "active",
+    is_featured: false,
+    average_rating: 0,
+    review_count: 0,
+    created_at: "2024-01-01T00:00:00Z"
   },
   {
     id: 3,
     name: "Women's Summer Blouse",
+    slug: "womens-summer-blouse",
     description: "Light and airy blouse perfect for summer",
     price: 35.99,
+    price_display: "$35.99",
+    discount_percentage: 0,
+    is_on_sale: false,
     category: mockCategories[0],
     image: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=500",
     stock: 30,
-    available: true,
-    created_at: "2024-01-01T00:00:00Z",
-    updated_at: "2024-01-01T00:00:00Z"
+    status: "active",
+    is_featured: false,
+    average_rating: 0,
+    review_count: 0,
+    created_at: "2024-01-01T00:00:00Z"
   },
   {
     id: 4,
     name: "Men's Formal Jacket",
+    slug: "mens-formal-jacket",
     description: "Professional jacket for business occasions",
     price: 129.99,
+    price_display: "$129.99",
+    discount_percentage: 0,
+    is_on_sale: false,
     category: mockCategories[1],
     image: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=500",
     stock: 12,
-    available: true,
-    created_at: "2024-01-01T00:00:00Z",
-    updated_at: "2024-01-01T00:00:00Z"
+    status: "active",
+    is_featured: false,
+    average_rating: 0,
+    review_count: 0,
+    created_at: "2024-01-01T00:00:00Z"
   },
   {
     id: 5,
     name: "Designer Handbag",
+    slug: "designer-handbag",
     description: "Luxury handbag with premium leather",
     price: 199.99,
+    price_display: "$199.99",
+    discount_percentage: 0,
+    is_on_sale: false,
     category: mockCategories[2],
     image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500",
     stock: 8,
-    available: true,
-    created_at: "2024-01-01T00:00:00Z",
-    updated_at: "2024-01-01T00:00:00Z"
+    status: "active",
+    is_featured: false,
+    average_rating: 0,
+    review_count: 0,
+    created_at: "2024-01-01T00:00:00Z"
   },
   {
     id: 6,
     name: "Women's Winter Coat",
+    slug: "womens-winter-coat",
     description: "Warm and stylish coat for cold weather",
     price: 159.99,
+    price_display: "$159.99",
+    discount_percentage: 0,
+    is_on_sale: false,
     category: mockCategories[0],
     image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=500",
     stock: 18,
-    available: true,
-    created_at: "2024-01-01T00:00:00Z",
-    updated_at: "2024-01-01T00:00:00Z"
+    status: "active",
+    is_featured: false,
+    average_rating: 0,
+    review_count: 0,
+    created_at: "2024-01-01T00:00:00Z"
   }
 ]
 
